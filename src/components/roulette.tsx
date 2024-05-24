@@ -6,6 +6,7 @@ import {
   BeefIcon,
   DrumstickIcon,
   FishIcon,
+  HamIcon,
   PizzaIcon,
   SaladIcon,
   SandwichIcon,
@@ -27,8 +28,14 @@ const slots: RouletteSlotType[] = [
     textColor: "text-white",
   },
   {
+    name: "Burger",
+    icon: <HamIcon width={35} height={50} />,
+    bgColor: "bg-emerald-500",
+    textColor: "text-white",
+  },
+  {
     name: "Seafood",
-    icon: <FishIcon width={35} height={50} />,
+    icon: <FishIcon width={35} height={50} className="rotate-180" />,
     bgColor: "bg-cyan-500",
     textColor: "text-white",
   },
@@ -110,7 +117,7 @@ function rouletteTick(curState: RouletteStateType) {
         ? curState.innerSpins + 1
         : curState.innerSpins,
     currentHighlightedSlot: Math.floor(
-      ((curState.animatedPosition + 200) % rouletteOptionsSize) /
+      ((curState.animatedPosition + 238) % rouletteOptionsSize) /
         rouletteSlotSize,
     ),
   };
@@ -146,7 +153,7 @@ export function Roulette() {
   return (
     <div
       className={clsx([
-        "relative h-[25rem] select-none overflow-hidden border-2 border-white bg-black",
+        "relative h-[30rem] select-none overflow-hidden rounded-lg border-2 border-white bg-black",
         {
           "cursor-pointer transition active:scale-90 md:hover:scale-110":
             animatedPosition === targetPosition,
@@ -163,6 +170,19 @@ export function Roulette() {
         }}
       >
         <div
+          className={clsx({
+            "animate-uneasy-1": targetPosition - animatedPosition > 3000,
+            "animate-uneasy-2":
+              targetPosition - animatedPosition > 1400 &&
+              targetPosition - animatedPosition <= 3000,
+            "animate-uneasy-3":
+              targetPosition - animatedPosition > 700 &&
+              targetPosition - animatedPosition <= 1400,
+            "animate-uneasy-4":
+              targetPosition - animatedPosition > 0 &&
+              targetPosition - animatedPosition <= 700,
+            "mx-1": targetPosition === animatedPosition,
+          })}
           style={{
             transform: `translateY(${innerSpins * rouletteOptionsSize}px)`,
           }}
@@ -188,7 +208,10 @@ export function Roulette() {
         </div>
       </div>
 
-      <div className="absolute left-[-8%] top-[40%] flex w-[116%] justify-between">
+      <div
+        className="absolute left-[-8%] flex w-[116%] justify-between"
+        style={{ top: "calc(50% - 25px)" }}
+      >
         <ArrowBigRight className="fill-white" width={50} height={50} />
         <div className="absolute top-[48.5%] w-full border border-white opacity-80"></div>
         <ArrowBigLeft className="fill-white" width={50} height={50} />
@@ -207,7 +230,7 @@ function RouletteItems({
   return slots.map((item, idx) => (
     <div
       className={clsx([
-        `flex flex-col items-center justify-center px-24 py-12 ${item.bgColor} ${item.textColor}`,
+        `flex flex-col items-center justify-center px-24 py-12 transition ${item.bgColor} ${item.textColor}`,
         {
           "opacity-40": currentHighlightedSlot !== idx,
         },
