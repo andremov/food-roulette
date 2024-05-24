@@ -230,7 +230,7 @@ function RouletteItems({
   return slots.map((item, idx) => (
     <div
       className={clsx([
-        `flex flex-col items-center justify-center px-24 py-12 transition ${item.bgColor} ${item.textColor}`,
+        `flex flex-col items-center justify-center px-20 py-12 transition ${item.bgColor} ${item.textColor}`,
         {
           "opacity-40": currentHighlightedSlot !== idx,
         },
